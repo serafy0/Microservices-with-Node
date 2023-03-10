@@ -17,10 +17,8 @@ spec:
           image: serafy0/auth
           resources:
             limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
-          # ports:
-          #   - containerPort: <Port>
 ---
 apiVersion: v1
 kind: Service
