@@ -11,8 +11,8 @@ spec:
     - host: ticketing.dev
       http:
         paths:
-          - pathType: Prefix
-            path: /api/users/?(.*)
+          - path: /api/users/?(.*)
+            pathType: Prefix
             backend:
               service:
                 name: auth-srv
