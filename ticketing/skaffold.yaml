@@ -7,8 +7,10 @@ deploy:
 build:
   local:
     push: false
+  googleCloudBuild:
+    projectId: ticketing-dev-380311
   artifacts:
-    - image: serafy0/auth
+    - image: us.gcr.io/ticketing-dev-380311/auth
       context: auth
       docker:
         dockerfile: Dockerfile
