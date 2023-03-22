@@ -8,7 +8,7 @@
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
-    "prest": "ts-jest",
+    "preset": "ts-jest",
     "testEnvioronment": "node",
     "setupFilesAfterEnv": [
       "./src/test/setup.ts"
