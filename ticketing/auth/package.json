@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "test": "jest --warchAll --no-cache"
+    "test": "jest --watchAll --no-cache"
   },
-  "jest":{
-    "prest":"ts-jest",
-    "testEnvioronment":"node",
-    "setupFilesAfterEnv":[
+  "jest": {
+    "prest": "ts-jest",
+    "testEnvioronment": "node",
+    "setupFilesAfterEnv": [
       "./src/test/setup.ts"
     ]
   },
