@@ -9,11 +9,13 @@ it("responds with details about current user", async () => {
       password: "password",
     })
     .expect(201);
+  const cookie = authResponse.get("Set-Cookie");
 
   const response = await request(app)
-    .get("/api/user/currentUser")
+    .get("/api/users/currentUser")
+    .set("Cookie", cookie)
     .send()
     .expect(200);
 
-  console.log(response.body);
+  expect(response.body.currentUser.email).toEqual("test@test.com");
 });
