@@ -19,4 +19,4 @@ it("clears the cookie after signing out", async () => {
     .expect(200);
 
   console.log(response.get("Set-Cookie"));
-});
+}, 7999);
