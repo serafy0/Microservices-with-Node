@@ -4,7 +4,7 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError, currentUser } from "@ticketing-s/common";
 
-import { createTicketRouter } from "../routes/new";
+import { createTicketRouter } from "./routes/new";
 
 const app = express();
 //trust traffic from proxy
