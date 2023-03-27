@@ -1,7 +1,7 @@
 import { NotFoundError } from "@ticketing-s/common";
 import express, { Request, Response } from "express";
 
-import { Ticket } from "./ticket";
+import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 

@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError, currentUser } from "@ticketing-s/common";
 
 import { createTicketRouter } from "./routes/new";
-import { ShowTicketRouter } from "./models/show";
+import { ShowTicketRouter } from "./routes/show";
 
 const app = express();
 //trust traffic from proxy
