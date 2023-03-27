@@ -1,5 +1,9 @@
 import express, { Request, Response } from "express";
-import { NotFoundError, requireAuth } from "@ticketing-s/common";
+import {
+  NotAuthorizedError,
+  NotFoundError,
+  requireAuth,
+} from "@ticketing-s/common";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 const router = express.Router();
@@ -12,6 +16,10 @@ router.put(
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
     }
     res.send(ticket);
   }

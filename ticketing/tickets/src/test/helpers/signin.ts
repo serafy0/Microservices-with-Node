@@ -1,11 +1,13 @@
 import { app } from "../../app";
 import request from "supertest";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const signin = (): string[] => {
   //Build a JWT payload. {id, email}
+
   const payload = {
-    id: "3d32drds4r",
+    id: new mongoose.Types.ObjectId().toHexString(),
     email: "test@test1.com",
   };
   //Create the JWT
