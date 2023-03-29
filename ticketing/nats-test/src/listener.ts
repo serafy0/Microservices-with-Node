@@ -1,4 +1,4 @@
-import nats from "node-nats-streaming";
+import nats, { Message } from "node-nats-streaming";
 console.clear();
 
 const stan = nats.connect("ticketing", "123", {
@@ -7,7 +7,11 @@ const stan = nats.connect("ticketing", "123", {
 stan.on("connect", () => {
   console.log("Listener connected to NATS");
   const subscription = stan.subscribe("ticket:created");
-  subscription.on("message", (msg) => {
-    console.log("Message recieved");
+  subscription.on("message", (msg: Message) => {
+    const data = msg.getData();
+
+    if (typeof data === "string") {
+      console.log(`received event ${msg.getSequence()}, with data: ${data}`);
+    }
   });
 });
