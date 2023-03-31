@@ -12,24 +12,7 @@ stan.on("connect", () => {
     console.log("NATS connection closed!");
     process.exit();
   });
-  const options = stan
-    .subscriptionOptions()
-    .setManualAckMode(true)
-    .setDeliverAllAvailable()
-    .setDurableName("accounting-service");
-  const subscription = stan.subscribe(
-    "ticket:created",
-    "queue-group-name",
-    options
-  );
-  subscription.on("message", (msg: Message) => {
-    const data = msg.getData();
-
-    if (typeof data === "string") {
-      console.log(`received event #${msg.getSequence()}, with data: ${data}`);
-    }
-    msg.ack();
-  });
+  new TicketCreatedListener(stan).listen();
 });
 
 process.on("SIGINT", () => stan.close());
@@ -80,4 +63,14 @@ abstract class Listener {
   }
 
   abstract onMessage(data: any, msg: Message): void;
+}
+
+class TicketCreatedListener extends Listener {
+  subject = "ticket:created";
+  queueGroupName = "payments-service";
+
+  onMessage(data: any, msg: Message) {
+    console.log("Event Data!", data);
+    msg.ack();
+  }
 }
