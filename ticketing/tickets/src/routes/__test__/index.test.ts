@@ -1,6 +1,6 @@
 import request from "supertest";
-import { app } from "../src/app";
-import { signin } from "../src/test/helpers/signin";
+import { app } from "../../app";
+import { signin } from "../../test/helpers/signin";
 
 const createTicket = () =>
   request(app)
