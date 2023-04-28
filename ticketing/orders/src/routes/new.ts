@@ -1,7 +1,17 @@
 import express, { Request, Response } from "express";
-import { requireAuth, validateRequest } from "@ticketing-s/common";
+import {
+  BadRequestError,
+  NotFoundError,
+  OrderStatus,
+  requireAuth,
+  validateRequest,
+} from "@ticketing-s/common";
 import { body } from "express-validator";
 import mongoose from "mongoose";
+
+import { Ticket } from "../models/ticket";
+import { Order } from "../models/order";
+
 const router = express.Router();
 
 router.post(
@@ -18,6 +28,28 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    const { ticketId } = req.body;
+
+    const ticket = await Ticket.findById(ticketId);
+    if (!ticket) {
+      throw new NotFoundError();
+    }
+
+    const exsitingOrder = await Order.findOne({
+      ticket: ticket,
+      status: {
+        $in: [
+          OrderStatus.Created,
+          OrderStatus.AwaitingPayment,
+          OrderStatus.Complete,
+        ],
+      },
+    });
+
+    if (exsitingOrder) {
+      throw new BadRequestError("Tickey is already reserved");
+    }
+
     res.send({});
   }
 );
