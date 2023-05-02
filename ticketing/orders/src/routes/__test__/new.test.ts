@@ -32,7 +32,7 @@ it("returns an error if the ticket is already reserved", async () => {
 
   await order.save();
 
-  await request(app)
+  const r = await request(app)
     .post("/api/orders")
     .set("Cookie", signin())
     .send({ ticketId: ticket.id })

@@ -53,7 +53,7 @@ ticketSchema.methods.isReserved = async function () {
     },
   });
 
-  !!exsitingOrder;
+  return !!exsitingOrder;
 };
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
