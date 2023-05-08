@@ -3,6 +3,7 @@ import { Order } from "../models/order";
 import {
   NotAuthorizedError,
   NotFoundError,
+  OrderStatus,
   requireAuth,
 } from "@ticketing-s/common";
 
@@ -21,6 +22,7 @@ router.delete(
     if (order.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
+    order.status = OrderStatus.Cancelled;
     await order.save();
     res.status(204).send(order);
   }
