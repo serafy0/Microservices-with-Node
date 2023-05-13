@@ -1,5 +1,9 @@
 import express, { Request, Response } from "express";
-import { NotAuthorizedError, NotFoundError, requireAuth } from "@ticketing-s/common";
+import {
+  NotAuthorizedError,
+  NotFoundError,
+  requireAuth,
+} from "@ticketing-s/common";
 import { Order } from "../models/order";
 const router = express.Router();
 
@@ -12,7 +16,7 @@ router.get(
       throw new NotFoundError();
     }
 
-    if(order.userId!== req.currentUser!.id){
+    if (order.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
     res.send(order);
