@@ -41,3 +41,12 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+
+    - image: serafy0/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
