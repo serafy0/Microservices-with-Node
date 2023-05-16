@@ -33,3 +33,30 @@ const setup = async () => {
 
   return { listener, order, ticket, data, msg };
 };
+
+it("updates the order status to canceled", async () => {
+  const { listener, order, data, msg } = await setup();
+  await listener.onMessage(data, msg);
+
+  const updateOrder = await Order.findById(order.id);
+  expect(updateOrder!.status).toEqual(OrderStatus.Cancelled);
+});
+
+it("emit an OrderCancelled event", async () => {
+  const { listener, order, data, msg } = await setup();
+  await listener.onMessage(data, msg);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+
+  const eventData = JSON.parse(
+    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+  );
+  expect(eventData.id).toEqual(order.id);
+});
+
+it("acknowledge the message ", async () => {
+  const { listener, data, msg } = await setup();
+  await listener.onMessage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
