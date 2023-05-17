@@ -31,6 +31,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    price: {
+      type: Number,
+      required: true,
+    },
   },
   {
     toJSON: {
@@ -51,6 +55,7 @@ orderSchema.statics.build = (attrs: OrderAttrs) => {
     version: attrs.version,
     price: attrs.price,
     userId: attrs.userId,
+    status: attrs.status,
   });
 };
 
