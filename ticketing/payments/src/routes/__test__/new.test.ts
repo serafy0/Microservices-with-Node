@@ -35,4 +35,24 @@ it("return a 401 when purchasing an order that does not belong to the user", asy
     })
     .expect(401);
 });
-it("return a 404 when purchasing a cancelled order", async () => {});
+it("return a 404 when purchasing a cancelled order", async () => {
+  const userId = new mongoose.Types.ObjectId().toHexString();
+
+  const order = Order.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
+    userId: userId,
+    version: 0,
+    price: 20,
+    status: OrderStatus.Cancelled,
+  });
+  await order.save();
+
+  await request(app)
+    .post("/api/payments")
+    .set("Cookie", signin(userId))
+    .send({
+      token: "randomToken",
+      orderId: order.id,
+    })
+    .expect(400);
+});
