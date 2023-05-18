@@ -9,6 +9,7 @@ import {
   validateRequest,
 } from "@ticketing-s/common";
 import { Order } from "../models/order";
+import { stripe } from "../stripe";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post(
   [body("token").not().isEmpty(), body("orderId").not().isEmpty()],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { orderId } = req.body;
+    const { orderId, token } = req.body;
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -30,6 +31,12 @@ router.post(
     if (order.status === OrderStatus.Cancelled) {
       throw new BadRequestError("can't pay for a cancelled order");
     }
+
+    await stripe.charges.create({
+      currency: "usd",
+      amount: order.price * 100,
+      source: token,
+    });
     res.send({ success: true });
   }
 );
